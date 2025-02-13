@@ -244,11 +244,11 @@ def save_file_info_to_csv(file_info):
 
 # Update the Flask route to handle both GET and POST
 @app.route("/api/upload", methods=["GET", "POST"])
-@cross_origin(
-    methods=["GET", "POST", "OPTIONS"],  # Add OPTIONS method
-    allow_headers=["Content-Type"],  # Allow necessary headers
-    max_age=3600,  # Cache preflight request results
-)
+# @cross_origin(
+#     methods=["GET", "POST", "OPTIONS"],  # Add OPTIONS method
+#     allow_headers=["Content-Type"],  # Allow necessary headers
+#     max_age=3600,  # Cache preflight request results
+# )
 def upload_file():
     if request.method == "POST":
         responses = []  # Initialize a list to hold responses for each file
