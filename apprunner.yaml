@@ -6,9 +6,6 @@ build:
     - pip install -r requirements.txt
 run:
   runtime-version: 3.11
-  env:
-    - name: PATH
-      value: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-  command: gunicorn --bind 0.0.0.0:8080 app:app --timeout 600
+  command: python app.py
   network:
-    port: 8080 
+    port: 8080
