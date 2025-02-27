@@ -2,10 +2,13 @@ version: 1.0
 runtime: python3
 build:
   commands:
-    - /usr/bin/python3 -m pip install --upgrade pip
-    - /usr/bin/python3 -m pip install -r requirements.txt
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
 run:
   runtime-version: 3.11
-  command: /usr/bin/python3 -m gunicorn --bind 0.0.0.0:8080 app:app --timeout 600
+  env:
+    - name: PATH
+      value: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  command: gunicorn --bind 0.0.0.0:8080 app:app --timeout 600
   network:
     port: 8080 
