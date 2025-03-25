@@ -3,6 +3,7 @@ venv
 __pycache__
 
 react/node_modules
+react/.vite
 package-lock.json
 *.local
 
