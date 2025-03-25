@@ -2,63 +2,72 @@
   "hash": "57328138",
   "configHash": "9f0d84d2",
   "lockfileHash": "3373a798",
-  "browserHash": "a8b4fde4",
+  "browserHash": "b9762abb",
   "optimized": {
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "4b7b2139",
+      "fileHash": "74fa4554",
       "needsInterop": true
     },
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "53e8266a",
+      "fileHash": "d4a96034",
       "needsInterop": true
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "02cddf89",
+      "fileHash": "d733f140",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.mjs",
       "file": "react-router-dom.js",
-      "fileHash": "93e58482",
+      "fileHash": "81d0f756",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "3c87b087",
+      "fileHash": "96901867",
       "needsInterop": false
     },
     "@mui/material/styles": {
       "src": "../../node_modules/@mui/material/styles/index.js",
       "file": "@mui_material_styles.js",
-      "fileHash": "cee5dcaa",
+      "fileHash": "38babeda",
       "needsInterop": false
     },
     "@mui/material": {
       "src": "../../node_modules/@mui/material/index.js",
       "file": "@mui_material.js",
-      "fileHash": "a41f8d77",
+      "fileHash": "1ee9030d",
+      "needsInterop": false
+    },
+    "@react-pdf/renderer": {
+      "src": "../../node_modules/@react-pdf/renderer/lib/react-pdf.browser.js",
+      "file": "@react-pdf_renderer.js",
+      "fileHash": "fa93d5e2",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-6LRHFBMR": {
-      "file": "chunk-6LRHFBMR.js"
+    "chunk-YEN5GRII": {
+      "file": "chunk-YEN5GRII.js"
     },
-    "chunk-TKHB4QMX": {
-      "file": "chunk-TKHB4QMX.js"
+    "chunk-DBUZJ3IO": {
+      "file": "chunk-DBUZJ3IO.js"
     },
-    "chunk-YLDSBLSF": {
-      "file": "chunk-YLDSBLSF.js"
+    "chunk-EQQ5XMTF": {
+      "file": "chunk-EQQ5XMTF.js"
     },
-    "chunk-DC5AMYBS": {
-      "file": "chunk-DC5AMYBS.js"
+    "chunk-52VOLQIH": {
+      "file": "chunk-52VOLQIH.js"
+    },
+    "chunk-2TUXWMP5": {
+      "file": "chunk-2TUXWMP5.js"
     }
   }
 }

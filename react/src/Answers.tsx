@@ -66,8 +66,7 @@ export const Answers = ({
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        testing
-        {/* <div
+        <div
           style={{
             paddingTop: 40,
             display: "flex",
@@ -153,7 +152,7 @@ export const Answers = ({
               />
             )}
           </div>
-        </div> */}
+        </div>
       </ThemeProvider>
     </div>
   );
