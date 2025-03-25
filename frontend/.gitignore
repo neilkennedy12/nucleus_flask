@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 venv
+uploads
+uploaded_files_log.csv
+questions_log.csv
+node_modules
