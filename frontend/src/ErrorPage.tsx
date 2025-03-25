@@ -2,7 +2,7 @@ import { useRouteError } from "react-router-dom";
 import "./index.css";
 
 export default function ErrorPage() {
-  const error = useRouteError();
+  const error: any = useRouteError();
   return (
     <div style={{ margin: 20 }} id="error-page">
       <h1>Network Error</h1>

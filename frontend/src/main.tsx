@@ -2,9 +2,9 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createTheme } from "@mui/material/styles";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Answers } from "./Answers.jsx";
+import { Answers } from "./Answers.js";
 import { Upload } from "./Upload.tsx";
-import ErrorPage from "./ErrorPage.jsx";
+import ErrorPage from "./ErrorPage.js";
 
 const colors = {
   main: "#DA291C",
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/preview",
-    element: <Answers url={`${apiUrl}/api/preview/`} />,
+    element: <Answers url={`${apiUrl}/api/preview/`} access={false} />,
   },
   {
     path: "/upload",
@@ -54,7 +54,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Root element not found");
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>

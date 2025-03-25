@@ -11,7 +11,6 @@ import {
 import logo from "./pdfLogo.png";
 import logoGrey from "./logoGrey.png";
 import header from "./Header.png";
-import avenir from "./Avenir.ttf";
 import avenirHeavy from "./AvenirHeavy.ttf";
 import avenirBlack from "./Avenir-Black-03.ttf";
 import avenirMedium from "./Avenir-Medium-09.ttf";
@@ -97,7 +96,17 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const MyDocument = ({ question, answer, research, date }) => (
+const MyDocument = ({
+  question,
+  answer,
+  research,
+  date,
+}: {
+  question: string;
+  answer: string;
+  research: any;
+  date: any;
+}) => (
   <Document>
     <Page size="LETTER" style={styles.page}>
       <View style={styles.header}>
@@ -155,7 +164,15 @@ const MyDocument = ({ question, answer, research, date }) => (
     </Page>
   </Document>
 );
-export const Download = ({ question, answer, research }) => {
+export const Download = ({
+  question,
+  answer,
+  research,
+}: {
+  question: string;
+  answer: string;
+  research: any;
+}) => {
   Font.register({
     family: "avenirMedium",
     src: avenirMedium,
@@ -178,22 +195,22 @@ export const Download = ({ question, answer, research }) => {
   return (
     <div>
       <Button variant="outlined" color="primary">
-        <PDFDownloadLink
-          document={
-            <MyDocument
-              question={question}
-              answer={answer}
-              research={research}
-              date={today}
-            />
-          }
-          style={{ color: colors.main, textDecoration: "none" }}
-          fileName="NucleusAnswer.pdf"
-        >
-          {({ blob, url, loading, error }) =>
-            loading ? "Loading" : "Download PDF"
-          }
-        </PDFDownloadLink>
+        {question && research && answer && today && (
+          <PDFDownloadLink
+            document={
+              <MyDocument
+                question={question}
+                answer={answer}
+                research={research}
+                date={today}
+              />
+            }
+            style={{ color: colors.main, textDecoration: "none" }}
+            fileName="NucleusAnswer.pdf"
+          >
+            {({ loading }) => (loading ? "Loading" : "Download PDF")}
+          </PDFDownloadLink>
+        )}
       </Button>
     </div>
   );

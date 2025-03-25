@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
@@ -10,27 +10,29 @@ export const Upload = () => {
   const [result, setResult] = useState<any>([]);
   const [errors, setErrors] = useState<any>([]);
 
-  const handleFileSelect = (e) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const handleFileSelect = (e: any) => {
     const arr = Array.from(e.target.files);
     setUploadedFiles(arr);
   };
 
-  const handleFileUpload = async (event) => {
+  const handleFileUpload = async (event: any) => {
     event.preventDefault();
     if (!uploadedFiles.length) return;
 
     const formData = new FormData();
-    uploadedFiles.forEach((file) => formData.append("file", file));
+    uploadedFiles.forEach((file: any) => formData.append("file", file));
     setErrors([]);
     try {
       // Upload the file
       setIsLoading(true);
-      const res = await axios.post("/api/upload", formData, {
+      const res = await axios.post(`${apiUrl}/api/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setResult(res.data.responses || []); // Ensure responses is an array
       setIsLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error uploading file:", error);
       // Ensure errors is always an array
       const errorMessages = error.response?.data?.errors
@@ -150,7 +152,7 @@ export const Upload = () => {
                 </div>
               ) : result.length > 0 ? (
                 <div>
-                  {result.map((file, index) => (
+                  {result.map((file: any, index: any) => (
                     <div key={index}>
                       <h1>{file.name}</h1>
                       {Array.isArray(file.texts) &&

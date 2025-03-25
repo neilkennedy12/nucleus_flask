@@ -1,34 +1,34 @@
 from flask import Flask, jsonify, request
+import os
+from dotenv import load_dotenv
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 from flask import send_from_directory
-import os
 import pinecone
 import json
 from langchain.document_loaders import DirectoryLoader
 from langchain.chains.question_answering import load_qa_chain
 from langchain_openai import ChatOpenAI
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain_pinecone import PineconeVectorStore
+from langchain_pinecone import Pinecone, PineconeVectorStore
 from datetime import datetime
 import re
+import csv
 
 
-app = Flask(__name__, static_folder="build", static_url_path="")
-app.config["DEBUG"] = True
+app = Flask(__name__, static_folder="frontend/dist", static_url_path="")
 CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 app.config["CORS_ORIGINS"] = ["https://nucleusresearchai.com"]
 
 
-os.environ["OPENAI_API_KEY"] = "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"
-os.environ["PINECONE_API_KEY"] = "7763e551-dddc-4bb9-b8bf-e9e2f045bcd0"
+load_dotenv()  # Load environment variables from .env file
+
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 embeddings = OpenAIEmbeddings()
 
-pc = pinecone.Pinecone(
-    # api_key="3d04fb7a-a531-41a6-aed3-2e1396e51960",
-    "7763e551-dddc-4bb9-b8bf-e9e2f045bcd0"
-)
+pc = pinecone.Pinecone(os.getenv("PINECONE_API_KEY"))
 
 index_name = "corpus"
 pc_index = pc.Index(index_name)
