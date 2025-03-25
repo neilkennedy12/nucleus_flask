@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from werkzeug.utils import secure_filename
 
-# from flask_cors import CORS
+from flask_cors import CORS
 import pinecone
 import json
 from langchain.document_loaders import DirectoryLoader
@@ -32,8 +32,18 @@ def serve_react_app(path):
 
 
 # app = Flask(__name__, static_folder="frontend/dist", static_url_path="")
-# CORS(app)
-# app.config["CORS_HEADERS"] = "Content-Type"
+CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
+
+
+@app.after_request
+def add_header(response):
+    response.headers["X-Frame-Options"] = (
+        "ALLOWALL"  # or use "ALLOW-FROM https://example.com"
+    )
+    return response
+
+
 # app.config["CORS_ORIGINS"] = ["https://nucleusresearchai.com"]
 
 
