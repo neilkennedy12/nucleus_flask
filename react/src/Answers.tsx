@@ -65,7 +65,7 @@ export const Answers = ({
   };
   return (
     <div className="App">
-      {window !== window.top || (
+      {(window !== window.top || true) && (
         <ThemeProvider theme={theme}>
           <div
             style={{
