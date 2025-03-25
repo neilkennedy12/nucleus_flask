@@ -17,6 +17,21 @@ import re
 import csv
 
 app = Flask(__name__, static_folder="react/dist", static_url_path="")
+CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
+
+# app.config["CORS_ORIGINS"] = ["https://nucleusresearchai.com"]
+
+
+@app.after_request
+def add_header(response):
+    response.headers["X-Frame-Options"] = (
+        "ALLOWALL"  # or use "ALLOW-FROM https://example.com"
+    )
+    response.headers["Content-Security-Policy"] = (
+        "frame-ancestors https://nucleusresearch.com;"
+    )
+    return response
 
 
 @app.route("/", defaults={"path": ""})
@@ -29,22 +44,6 @@ def serve_react_app(path):
 
     # Otherwise, return index.html for React routes
     return send_from_directory(app.static_folder, "index.html")
-
-
-# app = Flask(__name__, static_folder="frontend/dist", static_url_path="")
-CORS(app)
-app.config["CORS_HEADERS"] = "Content-Type"
-
-
-@app.after_request
-def add_header(response):
-    response.headers["X-Frame-Options"] = (
-        "ALLOWALL"  # or use "ALLOW-FROM https://example.com"
-    )
-    return response
-
-
-# app.config["CORS_ORIGINS"] = ["https://nucleusresearchai.com"]
 
 
 load_dotenv()  # Load environment variables from .env file
