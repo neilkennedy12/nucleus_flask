@@ -8,15 +8,17 @@ blinker==1.9.0
 certifi==2025.1.31
 charset-normalizer==3.4.1
 click==8.1.8
+dataclasses-json==0.6.7
 DateTime==5.5
 distro==1.9.0
 Flask==3.1.0
 flask-cors==5.0.1
 frozenlist==1.5.0
-gunicorn
+gunicorn==23.0.0
 h11==0.14.0
 httpcore==1.0.7
 httpx==0.28.1
+httpx-sse==0.4.0
 idna==3.10
 iniconfig==2.1.0
 itsdangerous==2.2.0
@@ -25,6 +27,7 @@ jiter==0.9.0
 jsonpatch==1.33
 jsonpointer==3.0.0
 langchain==0.3.21
+langchain-community==0.3.20
 langchain-core==0.3.48
 langchain-openai==0.3.10
 langchain-pinecone==0.2.3
@@ -32,7 +35,9 @@ langchain-tests==0.3.16
 langchain-text-splitters==0.3.7
 langsmith==0.3.18
 MarkupSafe==3.0.2
+marshmallow==3.26.1
 multidict==6.2.0
+mypy-extensions==1.0.0
 numpy==1.26.4
 openai==1.68.2
 orjson==3.10.16
@@ -44,6 +49,7 @@ pinecone-plugin-interface==0.0.7
 pluggy==1.5.0
 propcache==0.3.0
 pydantic==2.10.6
+pydantic-settings==2.8.1
 pydantic_core==2.27.2
 pytest==8.3.5
 pytest-asyncio==0.26.0
@@ -62,6 +68,7 @@ syrupy==4.9.1
 tenacity==9.0.0
 tiktoken==0.9.0
 tqdm==4.67.1
+typing-inspect==0.9.0
 typing_extensions==4.12.2
 urllib3==2.3.0
 Werkzeug==3.1.3
