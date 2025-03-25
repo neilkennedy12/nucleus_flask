@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
+from flask import send_from_directory
 import os
 import pinecone
 import json
@@ -13,7 +14,8 @@ from datetime import datetime
 import re
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="build", static_url_path="")
+app.config["DEBUG"] = True
 CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 app.config["CORS_ORIGINS"] = ["https://nucleusresearchai.com"]
@@ -29,7 +31,7 @@ pc = pinecone.Pinecone(
 )
 
 index_name = "corpus"
-index = pc.Index(index_name)
+pc_index = pc.Index(index_name)
 
 vector_store = PineconeVectorStore.from_existing_index(index_name, embeddings)
 
@@ -322,9 +324,19 @@ def upload_file():
         ), (200 if responses else 400)
 
 
+@app.route("/hello")
+def hello():
+    return "Hello, world!!"
+
+
 @app.route("/")
-def hello_world():
-    return "Hello, World!"
+def index():
+    return send_from_directory(app.static_folder, "index.html")
+
+
+@app.route("/<path:path>")
+def static_file(path):
+    return send_from_directory(app.static_folder, path)
 
 
 if __name__ == "__main__":
