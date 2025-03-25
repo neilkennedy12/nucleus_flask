@@ -28,9 +28,9 @@ def add_header(response):
     response.headers["X-Frame-Options"] = (
         "ALLOWALL"  # or use "ALLOW-FROM https://example.com"
     )
-    response.headers["Content-Security-Policy"] = (
-        "frame-ancestors https://nucleusresearch.com;"
-    )
+    # response.headers["Content-Security-Policy"] = (
+    #     "frame-ancestors https://nucleusresearch.com;"
+    # )
     return response
 
 
