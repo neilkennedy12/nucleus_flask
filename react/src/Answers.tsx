@@ -4,7 +4,7 @@ import "./App.css";
 import { Button, CircularProgress, TextField, Typography } from "@mui/material";
 import { Download } from "./Download";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./main";
+import { theme } from "./colors";
 
 function getRandomElement(list: any) {
   const index = Math.floor(Math.random() * list.length);
