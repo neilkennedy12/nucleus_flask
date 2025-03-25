@@ -65,97 +65,95 @@ export const Answers = ({
   };
   return (
     <div className="App">
-      {(window !== window.top || true) && (
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <div
+          style={{
+            paddingTop: 40,
+            display: "flex",
+            flexFlow: "column",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
           <div
             style={{
-              paddingTop: 40,
-              display: "flex",
-              flexFlow: "column",
-              alignItems: "center",
-              width: "100%",
+              width: "95%",
+              maxWidth: 800,
+              textAlign: "left",
             }}
           >
             <div
               style={{
-                width: "95%",
-                maxWidth: 800,
-                textAlign: "left",
+                paddingTop: 0,
+                paddingBottom: 30,
+                display: "flex",
               }}
             >
-              <div
-                style={{
-                  paddingTop: 0,
-                  paddingBottom: 30,
-                  display: "flex",
-                }}
-              >
-                <TextField
-                  id="outlined-basic"
-                  variant="outlined"
-                  placeholder={label}
-                  style={{ marginRight: 20, width: "100%" }}
-                  onChange={(res) => setQuestion(res.currentTarget.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      getData(question);
-                      setQueryText(question);
-                    }
-                  }}
-                />
-                <Button
-                  disabled={loading}
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => {
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                placeholder={label}
+                style={{ marginRight: 20, width: "100%" }}
+                onChange={(res) => setQuestion(res.currentTarget.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
                     getData(question);
                     setQueryText(question);
-                  }}
-                >
-                  Ask
-                </Button>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  marginBottom: 20,
+                  }
+                }}
+              />
+              <Button
+                disabled={loading}
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  getData(question);
+                  setQueryText(question);
                 }}
               >
-                {loading ? (
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <CircularProgress />
-                  </div>
-                ) : answer ? (
-                  <Typography
-                    style={{
-                      maxWidth: 900,
-                      whiteSpace: "pre-line",
-                    }}
-                    variant="body2"
-                  >
-                    {answer}
-                  </Typography>
-                ) : (
-                  <></>
-                )}
-              </div>
-              {!loading && answer && access && research && (
-                <Download
-                  question={queryText}
-                  answer={answer}
-                  research={research}
-                />
+                Ask
+              </Button>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                marginBottom: 20,
+              }}
+            >
+              {loading ? (
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <CircularProgress />
+                </div>
+              ) : answer ? (
+                <Typography
+                  style={{
+                    maxWidth: 900,
+                    whiteSpace: "pre-line",
+                  }}
+                  variant="body2"
+                >
+                  {answer}
+                </Typography>
+              ) : (
+                <></>
               )}
             </div>
+            {!loading && answer && access && research && (
+              <Download
+                question={queryText}
+                answer={answer}
+                research={research}
+              />
+            )}
           </div>
-        </ThemeProvider>
-      )}
+        </div>
+      </ThemeProvider>
     </div>
   );
 };
