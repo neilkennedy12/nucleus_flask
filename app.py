@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, send_from_directory
+from langchain.schema import Document
 import os
 from dotenv import load_dotenv
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -15,6 +16,9 @@ from langchain_pinecone import Pinecone, PineconeVectorStore
 from datetime import datetime
 import re
 import csv
+import pytesseract
+from pdf2image import convert_from_path
+from PyPDF2 import PdfReader
 
 app = Flask(__name__, static_folder="react/dist", static_url_path="")
 CORS(app)
@@ -267,6 +271,24 @@ def save_file_info_to_csv(file_info):
         writer.writerow(file_info)
 
 
+def process_pdf(file_path):
+    # First try to extract text directly using PyPDF2
+    pdf = PdfReader(file_path)
+    text = ""
+    for page in pdf.pages:
+        extracted_text = page.extract_text()
+        if extracted_text.strip():  # If we got meaningful text
+            text += extracted_text + "\n"
+        else:
+            # If no text found, assume it's a scanned PDF
+            # Convert PDF to images
+            images = convert_from_path(file_path)
+            # Extract text from images using OCR
+            for image in images:
+                text += pytesseract.image_to_string(image) + "\n"
+    return text
+
+
 # Update the Flask route to handle both GET and POST
 @app.route("/api/upload", methods=["GET", "POST"])
 # @cross_origin(
@@ -292,8 +314,15 @@ def upload_file():
             try:
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(UPLOAD_FOLDER, filename))
-                loader = DirectoryLoader("./uploads", glob="**/*.*")
-                documents = loader.load()
+                # Replace the DirectoryLoader section with:
+                if filename.lower().endswith(".pdf"):
+                    text = process_pdf(os.path.join(UPLOAD_FOLDER, filename))
+                    documents = [
+                        Document(page_content=text, metadata={"source": filename})
+                    ]
+                else:
+                    loader = DirectoryLoader("./uploads", glob="**/*.*")
+                    documents = loader.load()
 
                 # Save file info to CSV
                 file_info = {
@@ -301,8 +330,16 @@ def upload_file():
                     "date_added": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 }
                 save_file_info_to_csv(file_info)
+                print(file_info)
             except Exception as e:
                 errors.append(f"Failed to compile docs for {filename}: {str(e)}")
+                continue
+
+            try:
+                # Delete the uploaded file
+                os.remove(os.path.join(UPLOAD_FOLDER, filename))
+            except Exception as e:
+                errors.append(f"Failed to send response for {filename}: {str(e)}")
                 continue
 
             try:
@@ -313,6 +350,9 @@ def upload_file():
                 texts = text_splitter.split_documents(documents)
                 # Initialize embeddings
                 embeddings = OpenAIEmbeddings()
+                responses.append(
+                    {"name": filename, "texts": [str(text) for text in texts]}
+                )
 
             except Exception as e:
                 errors.append(f"Failed to split docs for {filename}: {str(e)}")
@@ -326,16 +366,6 @@ def upload_file():
                 print(docsearch)
             except Exception as e:
                 errors.append(f"Failed to upload vectors for {filename}: {str(e)}")
-                continue
-
-            try:
-                # Delete the uploaded file
-                os.remove(os.path.join(UPLOAD_FOLDER, filename))
-                responses.append(
-                    {"name": filename, "texts": [str(text) for text in texts]}
-                )
-            except Exception as e:
-                errors.append(f"Failed to send response for {filename}: {str(e)}")
                 continue
 
         # Return both responses and errors
