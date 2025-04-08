@@ -2,16 +2,16 @@ from flask import Flask, jsonify, request, send_from_directory
 from langchain.schema import Document
 import os
 from dotenv import load_dotenv
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 from werkzeug.utils import secure_filename
-
 from flask_cors import CORS
-import pinecone
 import json
-from langchain.document_loaders import DirectoryLoader
+
+import pinecone
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import DirectoryLoader
 from langchain.chains.question_answering import load_qa_chain
 from langchain_openai import ChatOpenAI
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import Pinecone, PineconeVectorStore
 from datetime import datetime
 import re
@@ -53,6 +53,11 @@ def serve_react_app(path):
 load_dotenv()  # Load environment variables from .env file
 
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+os.environ["PINECONE_API_KEY"] = os.getenv("PINECONE_API_KEY")
+
+index_name = "corpus"
+embeddings = OpenAIEmbeddings()
+
 embeddings = OpenAIEmbeddings()
 
 pc = pinecone.Pinecone(os.getenv("PINECONE_API_KEY"))
@@ -298,9 +303,9 @@ def process_pdf(file_path):
 # )
 def upload_file():
     if request.method == "POST":
-        responses = []  # Initialize a list to hold responses for each file
-        errors = []  # Initialize list to track errors
-        embeddings = None
+        responses = []
+        errors = []
+        embeddings = OpenAIEmbeddings()  # Move this outside the loop
 
         for file in request.files.getlist("file"):
             if file.filename == "":
@@ -348,8 +353,6 @@ def upload_file():
                     chunk_size=4096, chunk_overlap=50
                 )
                 texts = text_splitter.split_documents(documents)
-                # Initialize embeddings
-                embeddings = OpenAIEmbeddings()
                 responses.append(
                     {"name": filename, "texts": [str(text) for text in texts]}
                 )
@@ -360,10 +363,17 @@ def upload_file():
 
             try:
                 # Upload to Pinecone
-                docsearch = Pinecone.from_documents(
-                    texts, embeddings, index_name=index_name
+                # docsearch = Pinecone.from_documents(
+                #     texts, embeddings, index_name=index_name
+                # )
+                vectorstore_from_docs = PineconeVectorStore.from_documents(
+                    texts, index_name=index_name, embedding=embeddings
                 )
-                print(docsearch)
+
+                # After successful upload
+                print(f"Successfully uploaded {len(texts)} chunks to Pinecone")
+                vector_count = pc_index.describe_index_stats()["total_vector_count"]
+                print(f"Total vectors in index: {vector_count}")
             except Exception as e:
                 errors.append(f"Failed to upload vectors for {filename}: {str(e)}")
                 continue

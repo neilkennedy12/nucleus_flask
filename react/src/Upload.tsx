@@ -166,6 +166,7 @@ export const Upload = () => {
                             variant="body2"
                           >
                             {text}
+                            <div>----------</div>
                           </Typography>
                         ))}
                     </div>
