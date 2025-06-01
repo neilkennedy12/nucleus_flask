@@ -20,12 +20,13 @@ const colors = {
   main: "#C00000",
 };
 const leftMargin = 70;
+const paddingBottom = 60;
 const styles = StyleSheet.create({
   page: {
     backgroundColor: "white",
     fontFamily: "avenirMedium",
     paddingTop: 68,
-    paddingBottom: 60,
+    paddingBottom: paddingBottom,
     paddingHorizontal: leftMargin,
   },
   header: {
@@ -61,13 +62,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 20,
     marginLeft: -3,
-  },
-  bgImage: {
-    width: 200,
-    height: 300,
-    bottom: -5,
-    right: 0,
-    position: "absolute",
   },
   footerInfo: {
     fontSize: 7,
@@ -113,9 +107,6 @@ const MyDocument = ({
       <View style={styles.header}>
         <Image src={header} />
       </View>
-      <View style={styles.bgImage}>
-        <Image src={logoGrey} />
-      </View>
       <View style={styles.headerText}>
         <Text>RESEARCH QUERY</Text>
       </View>
@@ -149,6 +140,16 @@ const MyDocument = ({
         </View>
       </View>
       <View style={styles.footerInfo}>
+        <Image
+          src={logoGrey}
+          style={{
+            width: 200,
+            height: 300,
+            position: "absolute",
+            bottom: -paddingBottom,
+            right: -leftMargin,
+          }}
+        />
         <Text>
           This response has been generated directly from the Nucleus Research
           database. It relies on analyst published research reports and

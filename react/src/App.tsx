@@ -3,6 +3,7 @@ import { Upload } from "./Upload";
 import { Answers } from "./Answers";
 import ErrorPage from "./ErrorPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Test } from "./Test";
 
 // const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -20,6 +21,7 @@ const App = () => (
           element={<Answers url={`/api/preview/`} access={false} />}
         />
         <Route path="/upload" element={<Upload />} />
+        <Route path="/test" element={<Test access={true} />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
