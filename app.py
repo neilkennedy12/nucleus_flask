@@ -124,6 +124,7 @@ def get_answer(query):
     pattern = re.compile(
         r"/content/drive/MyDrive/research_(?:corpus|to_add)/([a-z]\d{1,3})"
     )
+    doc_num_pattern = re.compile(r"([a-z]\d+)(?:_|$)")
 
     for doc in similar_docs:
         metadata_str = str(doc.metadata)
@@ -131,6 +132,8 @@ def get_answer(query):
         if match:
             # Add the found reference number to the set (this ensures no duplicates)
             reference_research_set.add(match.group(1))
+        elif doc_num_pattern.search(metadata_str):
+            reference_research_set.add(doc_num_pattern.search(metadata_str).group(1))
         else:
             benchmark_data_present = True
 

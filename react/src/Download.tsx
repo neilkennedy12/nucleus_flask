@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    width: 615,
+    right: 0,
     // height: 100,
   },
   headerText: {
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 60,
     left: leftMargin,
+    right: leftMargin,
   },
   footerLeft: {
     fontSize: 7,
